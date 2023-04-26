@@ -1,0 +1,24 @@
+.app {
+    height: 100vh;
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+}
+
+.menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.user_name {
+    color: white;
+}
