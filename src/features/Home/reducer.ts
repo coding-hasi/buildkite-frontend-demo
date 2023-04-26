@@ -8,10 +8,11 @@ export function useHomeReducer() {
     error: cocktailFetchingError,
     isLoading: isCocktailFetching,
     mutate: refetchCocktails,
+    isValidating: cocktailsRefetching,
   } = useSWR(API_URLS.GET_A_RANDOM_COCKTAIL, fetchRandomCocktails(5))
 
   return {
-    state: { cocktails, cocktailFetchingError, isCocktailFetching },
+    state: { cocktails, cocktailFetchingError, isCocktailFetching, cocktailsRefetching },
     actions: { refetchCocktails },
   }
 }

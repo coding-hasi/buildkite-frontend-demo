@@ -1,12 +1,12 @@
 import CocktailCard from '../../components/CocktailCard'
 import { Button, Col, Row, Input, Spin, notification } from 'antd'
-import { HeartOutlined, PlusOutlined } from '@ant-design/icons'
+import { HeartOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons'
 import { useHomeReducer } from './reducer'
 import styles from './index.module.css'
 import { useEffect } from 'react'
 
 const Home = () => {
-  const { state } = useHomeReducer()
+  const { state, actions } = useHomeReducer()
 
   const [api, contextHolder] = notification.useNotification()
 
@@ -21,20 +21,26 @@ const Home = () => {
   return (
     <div>
       {contextHolder}
-      <Row gutter={[16, 16]}>
+      <Row gutter={[16, 16]} className={styles.action_container}>
         <Col span={6}>
-          <Input.Search
-            placeholder="Search cocktails"
-            onSearch={value => console.log('value', value)}
-            style={{ width: 200 }}
-          />
+          <div className={styles.search}>
+            <Input.Search
+              placeholder="Search cocktails"
+              onSearch={value => console.log('value', value)}
+              style={{ width: 200 }}
+            />
+          </div>
         </Col>
         <Col span={6} offset={12}>
-          <h2>refresh</h2>
+          <div className={styles.refresh}>
+            <Button type={'primary'} icon={<ReloadOutlined />} onClick={() => actions.refetchCocktails()}>
+              Refresh
+            </Button>
+          </div>
         </Col>
       </Row>
       <Row justify={'space-evenly'} gutter={[16, 16]} wrap>
-        {state.isCocktailFetching ? (
+        {state.isCocktailFetching || state.cocktailsRefetching ? (
           <div className={styles.loading_container}>
             <Spin />
           </div>

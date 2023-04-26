@@ -7,3 +7,23 @@
     width: 95vw;
     border-radius: 5px;
 }
+
+.action_container {
+    height: 5rem;
+    padding-left: 5rem;
+    padding-right: 5rem;
+}
+
+.search {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    height: 100%;
+}
+
+.refresh {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    height: 100%;
+}
