@@ -1,39 +1,33 @@
 import CocktailCard from '../../components/CocktailCard'
-import { Button, Col, Row, Input, Spin, notification } from 'antd'
+import { Button, Col, Row, Input, Spin } from 'antd'
 import { HeartOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons'
 import { useHomeReducer } from './reducer'
 import styles from './index.module.css'
-import { useEffect } from 'react'
 
 const Home = () => {
-  const { state, actions } = useHomeReducer()
-
-  const [api, contextHolder] = notification.useNotification()
-
-  useEffect(() => {
-    if (state.cocktailFetchingError)
-      api.info({
-        message: 'Failed to fetch cocktails',
-        placement: 'topRight',
-      })
-  }, [state.cocktailFetchingError, api])
+  const { state, actions, notificationContextHolder } = useHomeReducer()
 
   return (
     <div>
-      {contextHolder}
-      <Row gutter={[16, 16]} className={styles.action_container}>
-        <Col span={6}>
+      <Row gutter={[16, 16]} className={styles.action_container} wrap>
+        <Col>
           <div className={styles.search}>
             <Input.Search
               placeholder="Search cocktails"
-              onSearch={value => console.log('value', value)}
+              onSearch={value => actions.setSearchString(value)}
               style={{ width: 200 }}
+              allowClear
             />
           </div>
         </Col>
-        <Col span={6} offset={12}>
+        <Col>
           <div className={styles.refresh}>
-            <Button type={'primary'} icon={<ReloadOutlined />} onClick={() => actions.refetchCocktails()}>
+            <Button
+              type={'primary'}
+              icon={<ReloadOutlined />}
+              onClick={() => actions.refetchCocktails()}
+              loading={state.isCocktailFetching || state.cocktailsRefetching}
+            >
               Refresh
             </Button>
           </div>
@@ -62,6 +56,7 @@ const Home = () => {
           ))
         )}
       </Row>
+      {notificationContextHolder}
     </div>
   )
 }
