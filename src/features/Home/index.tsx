@@ -1,8 +1,8 @@
-import CocktailCard from '../../components/CocktailCard'
-import { Button, Col, Row, Input, Spin } from 'antd'
-import { HeartOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons'
+import { Button, Col, Row, Input } from 'antd'
+import { PlusOutlined, ReloadOutlined } from '@ant-design/icons'
 import { useHomeReducer } from './reducer'
 import styles from './index.module.css'
+import CocktailList from '../../components/CocktailList'
 
 const Home = () => {
   const { state, actions, notificationContextHolder } = useHomeReducer()
@@ -33,29 +33,15 @@ const Home = () => {
           </div>
         </Col>
       </Row>
-      <Row justify={'space-evenly'} gutter={[16, 16]} wrap>
-        {state.isCocktailFetching || state.cocktailsRefetching ? (
-          <div className={styles.loading_container}>
-            <Spin />
-          </div>
-        ) : (
-          state?.cocktails?.map(cocktail => (
-            <Col key={cocktail.image}>
-              <CocktailCard
-                key={cocktail.image}
-                image={cocktail.image}
-                name={cocktail.title}
-                category={cocktail.category}
-                actions={[
-                  <Button type={'text'} icon={<PlusOutlined />}>
-                    Add to <HeartOutlined />
-                  </Button>,
-                ]}
-              />
-            </Col>
-          ))
-        )}
-      </Row>
+      <CocktailList
+        loading={state.isCocktailFetching || state.cocktailsRefetching}
+        cocktails={state.cocktails || []}
+        cardAction={{
+          action: cocktail => actions.addToFavourites(cocktail.id),
+          label: 'Add to',
+          icon: <PlusOutlined />,
+        }}
+      />
       {notificationContextHolder}
     </div>
   )

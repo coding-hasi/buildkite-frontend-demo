@@ -1,0 +1,9 @@
+.loading_container {
+    display: flex;
+    height: 15rem;
+    justify-content: center;
+    align-items: center;
+    background-color: #e3e3e3;
+    min-width: 95vw;
+    border-radius: 5px;
+}

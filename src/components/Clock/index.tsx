@@ -1,13 +1,13 @@
 import { useEffect, useState, CSSProperties } from 'react'
 import { format as dateFormat } from 'date-fns'
 
-interface IProps {
+type TProps = {
   format?: string
   interval?: number
   className?: string
   style?: CSSProperties
 }
-function Clock(props: IProps) {
+function Clock(props: TProps) {
   const [currentTime, setCurrentTime] = useState(new Date())
 
   useEffect(() => {

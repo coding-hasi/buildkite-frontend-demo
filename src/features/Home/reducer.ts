@@ -3,10 +3,12 @@ import useSWRImmutable from 'swr/immutable'
 import { API_URLS } from '../../configs/constants/api-urls'
 import { fetchCocktails } from './fetcher'
 import { notification } from 'antd'
+import { useLocalStorage } from 'usehooks-ts'
 
 export function useHomeReducer() {
   const [searchString, setSearchString] = useState<string>()
-  const [api, contextHolder] = notification.useNotification()
+  const [notify, notificationContextHolder] = notification.useNotification()
+  const [, setFavouriteIds] = useLocalStorage<string[]>('favourites', [])
 
   const {
     data: cocktails,
@@ -18,15 +20,24 @@ export function useHomeReducer() {
 
   useEffect(() => {
     if (cocktailFetchingError)
-      api.info({
+      notify.info({
         message: 'Failed to fetch cocktails',
         placement: 'topRight',
       })
-  }, [cocktailFetchingError, api])
+  }, [cocktailFetchingError, notify])
+
+  const addToFavourites = (id: string) => {
+    setFavouriteIds(currentFavourites => [...currentFavourites, id])
+
+    notify.success({
+      message: 'Added to favourites successfully!',
+      placement: 'topRight',
+    })
+  }
 
   return {
     state: { cocktails, cocktailFetchingError, isCocktailFetching, cocktailsRefetching },
-    actions: { refetchCocktails, setSearchString },
-    notificationContextHolder: contextHolder,
+    actions: { refetchCocktails, setSearchString, addToFavourites },
+    notificationContextHolder,
   }
 }
