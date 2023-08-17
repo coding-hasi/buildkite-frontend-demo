@@ -1,3 +1,5 @@
 steps:
   - label: "Initialize Production Pipeline"
-    command: "npm install && npm run build && ls && aws s3 rm s3://buildkite-tester-react-ui --recursive && aws s3 cp $BUILDKITE_BUILD_CHECKOUT_PATH/dist s3://buildkite-tester-react-ui --recursive"
+    command: "npm install && npm run build"
+  - label: "Upload code"
+    command: "aws s3 rm s3://buildkite-tester-react-ui --recursive && aws s3 cp $BUILDKITE_BUILD_CHECKOUT_PATH/dist s3://buildkite-tester-react-ui --recursive"
