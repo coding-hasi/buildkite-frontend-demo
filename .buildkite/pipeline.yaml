@@ -1,4 +1,4 @@
 steps:
   - label: "Running Production Pipeline"
     if:  build.branch == 'main'
-    command: "buildkite-agent pipeline upload .buildkite/production.yml"
+    command: "buildkite-agent pipeline upload .buildkite/production.yaml"
